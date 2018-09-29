@@ -9,15 +9,12 @@ class QuickLRU {
 		this.maxSize = options.maxSize;
 		this.cache = new Map();
 		this.oldCache = new Map();
-		this._size = 0;
 	}
 
 	_set(key, value) {
 		this.cache.set(key, value);
-		this._size++;
 
-		if (this._size >= this.maxSize) {
-			this._size = 0;
+		if (this.cache.size >= this.maxSize) {
 			this.oldCache = this.cache;
 			this.cache = new Map();
 		}
@@ -60,17 +57,13 @@ class QuickLRU {
 	}
 
 	delete(key) {
-		if (this.cache.delete(key)) {
-			this._size--;
-		}
-
+		this.cache.delete(key);
 		this.oldCache.delete(key);
 	}
 
 	clear() {
 		this.cache.clear();
 		this.oldCache.clear();
-		this._size = 0;
 	}
 
 	* keys() {
@@ -112,7 +105,7 @@ class QuickLRU {
 			}
 		}
 
-		return this._size + oldCacheSize;
+		return this.cache.size + oldCacheSize;
 	}
 }
 
