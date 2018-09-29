@@ -18,6 +18,8 @@ class QuickLRU {
 			this.oldCache = this.cache;
 			this.cache = new Map();
 		}
+
+		return value;
 	}
 
 	get(key) {
@@ -26,10 +28,10 @@ class QuickLRU {
 		}
 
 		if (this.oldCache.has(key)) {
-			const value = this.oldCache.get(key);
-			this._set(key, value);
-			return value;
+			return this._set(key, this.oldCache.get(key));
 		}
+
+		return undefined;
 	}
 
 	set(key, value) {
