@@ -49,13 +49,13 @@ class QuickLRU {
 	}
 
 	peek(key) {
-		if (this.cache.has(key)) {
-			return this.cache.get(key);
-		}
+		const value = this.cache.get(key);
 
-		if (this.oldCache.has(key)) {
+		if (value === undefined) {
 			return this.oldCache.get(key);
 		}
+
+		return value;
 	}
 
 	delete(key) {
